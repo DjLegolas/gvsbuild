@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtk-update-icon-cache", "gt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtk-install", "gtk-install.vcxproj", "{FC5AADB5-95CD-4BF0-BA8B-0C16FE8073FB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpixmap", "libpixmap.vcxproj", "{2CC50B68-6D08-49A5-A246-5411CD92375D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -88,6 +90,14 @@ Global
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE8073FB}.Release|Win32.Build.0 = Release|Win32
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE8073FB}.Release|x64.ActiveCfg = Release|x64
 		{FC5AADB5-95CD-4BF0-BA8B-0C16FE8073FB}.Release|x64.Build.0 = Release|x64
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Debug|Win32.Build.0 = Debug|Win32
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Debug|x64.ActiveCfg = Debug|x64
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Debug|x64.Build.0 = Debug|x64
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Release|Win32.ActiveCfg = Release|Win32
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Release|Win32.Build.0 = Release|Win32
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Release|x64.ActiveCfg = Release|x64
+		{2CC50B68-6D08-49A5-A246-5411CD92375D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
