@@ -397,8 +397,6 @@ class Project_gdk_pixbuf(Tarball, Meson):
                 'pkg-config',
                 'meson',
                 'python',
-                'libtiff-4',
-                'jasper',
                 'glib',
                 'libpng',
             ],
@@ -409,8 +407,7 @@ class Project_gdk_pixbuf(Tarball, Meson):
         else:
             enable_gi = 'false'
 
-        self.add_param('-Djasper=true')
-        self.add_param('-Dnative_windows_loaders=true')
+        self.add_param('-Dbuiltin_loaders=all')
         self.add_param('-Dgir=%s' % (enable_gi, ))
         self.add_param('-Dman=false')
         self.add_param('-Dx11=false')
