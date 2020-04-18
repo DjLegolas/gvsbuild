@@ -1,0 +1,46 @@
+name: Windows Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        vs_ver: [15, 16]
+        platform: [x64, win32]
+        arch: [x64, x86]
+        exclude:
+          - platform: x64
+            arch: x86
+          - platform: win32
+            arch: x64
+      fail-fast: false
+
+    env:
+      CACHE_DIR: ${{ github.workspace }}\_download_cache
+      MSYS2_ROOT: ${{ runner.temp }}\msys64
+      BUILD_DIR: ${{ runner.temp }}\gtk-build
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+#      - name: Install Dependencies
+#        run: |
+#
+
+      - name: Build
+        run: |
+          echo %BUILD_DIR%
+          echo %MSYS2_ROOT%
+          echo %CACHE_DIR%
+          echo %PLATFORM%
+          echo %VS_VER%
+          REM python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k gtk3 openssl lgi enchant
+        shell: cmd
+
+#      - uses: actions/upload-artifact@v2-preview
+#        with:
+#          name: GTK
+#          path:
