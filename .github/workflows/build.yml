@@ -3,40 +3,54 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        VS_VER: [15, 16]
-        PLATFORM: [x64, x86]
+        os: [windows-2019, windows-2016]
+        vs_ver: [15, 16]
+        platform: [x64, x86]
+        exclude:
+          - os: windows-2019
+            vs_ver: 15
+          - os: windows-2016
+            vs_ver: 16
       fail-fast: false
 
     env:
       CACHE_DIR: ${{ github.workspace }}\_download_cache
-      MSYS2_ROOT: ${{ github.workspace }}\msys64
-      BUILD_DIR: ${{ github.workspace }}\gtk-build
-      VS_VER: ${{ matrix.VS_VER }}
-      PLATFORM: ${{ matrix.PLATFORM }}
+      VS_VER: ${{ matrix.vs_ver }}
+      PLATFORM: ${{ matrix.platform }}
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-#      - name: Install Dependencies
-#        run: |
-#
+      - uses: actions/cache@v1
+        with:
+          path: ${{ env.CACHE_DIR }}
+          key: gtkcache-${{ matrix.os }}-${{ github.sha }}
+          restore-keys: |
+            gtkcache-${{ matrix.os }}-
+            gtkcache-
 
-      - name: Build
+      - name: Install MSYS2
+        env:
+          MSYS2_ROOT: ${{ runner.temp }}\msys64
         run: |
-          echo %BUILD_DIR%
-          echo %MSYS2_ROOT%
-          echo %CACHE_DIR%
-          echo %PLATFORM%
-          echo %VS_VER%
-          REM python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k gtk3 openssl lgi enchant
+          choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
         shell: cmd
 
-#      - uses: actions/upload-artifact@v2-preview
-#        with:
-#          name: GTK
-#          path:
+      - name: Build
+        env:
+          MSYS2_ROOT: ${{ runner.temp }}\msys64
+          BUILD_DIR: ${{ runner.temp }}\gtk-build
+        run: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --python-ver 3.7 pixman
+        shell: cmd
+
+      - uses: actions/upload-artifact@v2-preview
+        with:
+          name: gvsbuild-vs${{ env.VS_VER }}-${{ env.PLATFORM }}
+          path: ${{ env.BUILD_DIR }}
