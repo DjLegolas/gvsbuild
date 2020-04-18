@@ -6,20 +6,16 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        vs_ver: [15, 16]
-        platform: [x64, win32]
-        arch: [x64, x86]
-        exclude:
-          - platform: x64
-            arch: x86
-          - platform: win32
-            arch: x64
+        VS_VER: [15, 16]
+        PLATFORM: [x64, x86]
       fail-fast: false
 
     env:
       CACHE_DIR: ${{ github.workspace }}\_download_cache
       MSYS2_ROOT: ${{ github.workspace }}\msys64
       BUILD_DIR: ${{ github.workspace }}\gtk-build
+      VS_VER: ${{ matrix.VS_VER }}
+      PLATFORM: ${{ matrix.PLATFORM }}
 
     steps:
       - uses: actions/checkout@v2
