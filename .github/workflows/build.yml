@@ -47,7 +47,7 @@ jobs:
           MSYS2_ROOT: ${{ runner.temp }}\msys64
           BUILD_DIR: ${{ runner.temp }}\gtk-build
         run: |
-          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --python-ver 3.7 pixman
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --python-ver 3.7 gtk3 openssl lgi enchant
         shell: cmd
 
       - uses: actions/upload-artifact@v2-preview
