@@ -51,6 +51,8 @@ jobs:
         shell: cmd
 
       - uses: actions/upload-artifact@v2-preview
+        env:
+          BUILD_DIR: ${{ runner.temp }}\gtk-build
         with:
           name: gvsbuild-vs${{ env.VS_VER }}-${{ env.PLATFORM }}
           path: ${{ env.BUILD_DIR }}

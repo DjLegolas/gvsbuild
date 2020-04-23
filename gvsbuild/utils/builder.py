@@ -948,7 +948,7 @@ class Builder(object):
                 key = k
                 break
         if key:
-            env[key] = env[key] + ';' + folder
+            env[key] += env[key] + ';' + folder
         else:
             key = 'path'
             env[key] = folder
