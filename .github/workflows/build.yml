@@ -1,0 +1,58 @@
+name: Windows Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019, windows-2016]
+        vs_ver: [15, 16]
+        platform: [x64, x86]
+        exclude:
+          - os: windows-2019
+            vs_ver: 15
+          - os: windows-2016
+            vs_ver: 16
+      fail-fast: false
+
+    env:
+      CACHE_DIR: ${{ github.workspace }}\_download_cache
+      VS_VER: ${{ matrix.vs_ver }}
+      PLATFORM: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ env.CACHE_DIR }}
+          key: gtkcache-${{ matrix.os }}-${{ github.sha }}
+          restore-keys: |
+            gtkcache-${{ matrix.os }}-
+            gtkcache-
+
+      - name: Install MSYS2
+        env:
+          MSYS2_ROOT: ${{ runner.temp }}\msys64
+        run: |
+          choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
+        shell: cmd
+
+      - name: Build
+        env:
+          MSYS2_ROOT: ${{ runner.temp }}\msys64
+          BUILD_DIR: ${{ runner.temp }}\gtk-build
+        run: |
+          python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --python-ver 3.7 cairo
+        shell: cmd
+
+      - uses: actions/upload-artifact@v2
+        env:
+          BUILD_DIR: ${{ runner.temp }}\gtk-build
+        with:
+          name: gvsbuild-vs${{ env.VS_VER }}-${{ env.PLATFORM }}
+          path: ${{ env.BUILD_DIR }}
