@@ -34,6 +34,12 @@ jobs:
             gtkcache-${{ matrix.os }}-
             gtkcache-
 
+      # The git directory contains cygwin binaries conflicting with MSYS2
+      - name: Remove GIT
+        run: |
+          rmdir "C:\Program Files\Git" /s /q
+        shell: cmd
+
       - name: Install MSYS2
         env:
           MSYS2_ROOT: ${{ runner.temp }}\msys64
