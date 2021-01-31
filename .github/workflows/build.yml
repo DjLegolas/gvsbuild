@@ -39,6 +39,7 @@ jobs:
           MSYS2_ROOT: ${{ runner.temp }}\msys64
         run: |
           choco config set cacheLocation %CACHE_DIR%
+          choco install --no-progress msys2 --params="/InstallDir:%MSYS2_ROOT% /NoPath"
         shell: cmd
 
       - name: Build
