@@ -47,7 +47,7 @@ jobs:
           MSYS2_ROOT: ${{ runner.temp }}\msys64
           BUILD_DIR: ${{ runner.temp }}\gtk-build
         run: |
-          set PATH=%MSYS2_ROOT%\usr\local\bin:%MSYS2_ROOT%\usr\bin:%MSYS2_ROOT%\bin:%MSYS2_ROOT%\opt\bin:%PATH%
+          set PATH=%MSYS2_ROOT%\usr\local\bin;%MSYS2_ROOT%\usr\bin;%MSYS2_ROOT%\bin;%MSYS2_ROOT%\opt\bin;%PATH%
           python.exe build.py build --build-dir=%BUILD_DIR% --msys-dir=%MSYS2_ROOT% --archives-download-dir=%CACHE_DIR% --platform=%PLATFORM% --vs-ver=%VS_VER% -k --python-ver 3.7 cairo
         shell: cmd
 
